@@ -36,5 +36,5 @@ Thumbs.db
 # Temporary command output logs (for Claude to read)
 .tmp/
 
-# Local Claude instructions (private, auto-loaded by Claude Code)
-CLAUDE.md
+# Root Claude instructions (private, auto-loaded by Claude Code)
+/CLAUDE.md

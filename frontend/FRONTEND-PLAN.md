@@ -5,7 +5,13 @@ scaffold and skeletons so the frontend is ready the moment Simon's APIs land. Re
 pages come in Phase 2 (Jun 30). See root [PLAN.md](../PLAN.md) for the shared schema and
 gates.
 
-One commit per slice. Conventional commits. Branch off `main`, PR into `main`.
+One commit per slice. Conventional commits. Work on branch `rodrigo`. PR into `main`.
+
+**Git rules:**
+- One commit per slice below. Do not combine slices.
+- Commit format: `feat: short description` (or chore/fix/style/docs).
+- **Never push.** Rodrigo pushes himself via the helper scripts (`commit-push`).
+- Never commit to main directly. Stay on the `rodrigo` branch.
 
 ## Phase 1 prep slices
 
