@@ -33,11 +33,11 @@ Repo: Simon-Almeida/Prog-Web-Proj-Final
 
 | Script | Purpose |
 |--------|---------|
-| `commit-push.sh/.bat` | `git add .` + commit + push current branch. Guards: blocks main branch, skips commit when tree is clean, shows preview + y/n prompt |
-| `update-from.sh/.bat` | fetch + merge specified remote branch + push current branch |
-| `switch-branch.sh/.bat` | stash uncommitted changes, switch branch, pop stash on arrival |
-| `github-update-branch.sh` | Simon-only: fast-forwards a branch on GitHub to match main (no local switch needed) |
-| `pull-branch.sh/.bat` | fetch + hard-reset current branch to match GitHub (remote wins) |
+| `commit-push.sh/.bat` | `git add .` + commit + push current branch. Guards: blocks main branch, skips commit when tree is clean, shows preview + y/n prompt. Pass `-y` to auto-confirm. |
+| `update-from.sh/.bat` | fetch + merge specified remote branch + push current branch. Pass `-y` to auto-confirm. |
+| `switch-branch.sh/.bat` | stash uncommitted changes, switch branch, pop stash on arrival. Pass `-y` to auto-confirm. |
+| `github-update-branch.sh` | Simon-only: fast-forwards a branch on GitHub to match main (no local switch needed). Pass `-y` to auto-confirm. |
+| `pull-branch.sh/.bat` | fetch + hard-reset current branch to match GitHub (remote wins). Pass `-y` to auto-confirm. |
 | `dev.sh/.bat` | run services from project root: `dev back` (Strapi), `dev front` (Next.js) |
 
 ### project.fish
@@ -77,31 +77,33 @@ Repo: Simon-Almeida/Prog-Web-Proj-Final
 - Commit: `feat: Model content-type + Machine 1-N Model relation`
 
 ### Step 4: Tab content-type
-- [ ] Fields: key, label, systemPrompt (text), accent (hex string)
+- [x] Fields: key (unique), label, systemPrompt (text), accent (hex string)
 - Commit: `feat: Tab content-type`
 
 ### Step 5: Tag content-type
-- [ ] Fields: name
+- [x] Fields: name (unique)
 - Commit: `feat: Tag content-type`
 
 ### Step 6: Conversation content-type + relations
-- [ ] Fields: title, createdAt
-- [ ] Relations: user N-1, tab N-1, M-N Model, M-N Tag
+- [x] Fields: title (required)
+- [x] Relations: user N-1 (users-permissions.user), tab N-1 (inversed), M-N Model (inversed), M-N Tag (inversed)
 - Commit: `feat: Conversation content-type + relations`
 
 ### Step 7: Message content-type + Conversation 1-N relation
-- [ ] Fields: role (enum: user/assistant/system), content (text), tokens (int, optional)
-- [ ] Relation: Message belongs-to Conversation
+- [x] Fields: role (enum: user/assistant/system, required), content (text, required), tokens (int, optional)
+- [x] Relation: Message manyToOne Conversation (mappedBy messages)
 - Commit: `feat: Message content-type + Conversation 1-N Message`
 
 ### Step 8: Public API permissions + seed data
-- [ ] Enable find/findOne/create/update/delete for Public role on all content-types
-- [ ] Seed: both machines (Simon RTX 2060, Rodrigo RTX 4060), sample models, tabs
+- [x] Enable find/findOne/create/update/delete for Public role on all 6 content-types
+- [x] Seed: both machines (Simon RTX 2060, Rodrigo RTX 4060), 4 models, 3 tabs
+- [x] Bootstrap idempotent: skips seed if machines already exist; uses findMany+loop for permissions (Strapi 5 updateMany bug)
 - Commit: `feat: open public API permissions + seed data`
 
 ### Step 9: Swagger/OpenAPI docs
-- [ ] Install `@strapi/plugin-documentation`
-- [ ] Expose `/documentation`, verify all content-types appear
+- [x] Install `@strapi/plugin-documentation@5.48.1`
+- [x] Configure plugin in `backend/back/config/plugins.ts` (title, version, description)
+- [x] Swagger UI available at `/documentation` after Strapi start
 - Commit: `feat: Swagger/OpenAPI docs`
 
 ### Step 10: Checkpoint

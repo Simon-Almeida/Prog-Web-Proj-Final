@@ -9,8 +9,13 @@ if [ "$GIT_USER" != "$EXPECTED_USER" ]; then
   exit 1
 fi
 
-if [ -z "$1" ]; then
-  echo "Usage: github-update-branch.sh <branch>"
+AUTO_YES=0
+for arg in "$@"; do
+  if [ "$arg" = "-y" ]; then AUTO_YES=1; fi
+done
+
+if [ -z "$1" ] || [ "$1" = "-y" ]; then
+  echo "Usage: github-update-branch.sh <branch> [-y]"
   echo "Example: github-update-branch.sh rodrigo"
   exit 1
 fi
@@ -27,11 +32,16 @@ echo "  git fetch origin"
 echo "  git push origin origin/main:refs/heads/$BRANCH"
 echo "  (fast-forwards $BRANCH on GitHub to match main)"
 echo ""
-read -r -p "Proceed? [y/N] " REPLY
-case "$REPLY" in
-  [yY]) ;;
-  *) echo "Aborted."; exit 0 ;;
-esac
+
+if [ "$AUTO_YES" = "1" ]; then
+  echo "Auto-confirming (-y)."
+else
+  read -r -p "Proceed? [y/N] " REPLY
+  case "$REPLY" in
+    [yY]) ;;
+    *) echo "Aborted."; exit 0 ;;
+  esac
+fi
 
 git fetch origin
 git push origin origin/main:refs/heads/"$BRANCH"
