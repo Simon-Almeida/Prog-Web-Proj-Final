@@ -1,0 +1,39 @@
+name: Auto-create PR on push
+
+on:
+  push:
+    branches:
+      - simon
+      - rodrigo
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create draft PR if none exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          OPEN=$(gh pr list \
+            --repo "$REPO" \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json number \
+            --jq length)
+
+          if [ "$OPEN" = "0" ]; then
+            gh pr create \
+              --repo "$REPO" \
+              --head "$BRANCH" \
+              --base main \
+              --title "feat($BRANCH): work in progress" \
+              --body "Auto-opened on push to \`$BRANCH\`. Edit title and description before merging." \
+              --draft
+          fi
