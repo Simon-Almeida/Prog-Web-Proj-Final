@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Strapi
+backend/.strapi/
+backend/dist/
+backend/.tmp/
+backend/exports/
+
+# Next.js
+frontend/.next/
+frontend/out/
+frontend/dist/
+frontend/build/
+
+# SQLite (dev only — never commit)
+backend/*.db
+backend/*.db-journal
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/settings.json
+.idea/
+
+# Hidden / internal notes
+.hidden/
