@@ -41,10 +41,10 @@ Each machine runs its own primary model and reserves 2 GB for cross-checking:
 
 ```bash
 # Backend
-cd backend && npm run develop
+cd backend/back && npm run develop
 
 # Frontend
-cd frontend && npm run dev
+cd frontend/front && npm run dev
 ```
 
 See `.hidden/plan.md` for full build plan (gitignored).
