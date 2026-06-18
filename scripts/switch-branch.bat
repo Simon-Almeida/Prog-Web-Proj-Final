@@ -4,23 +4,27 @@ if "%~1"=="" (
     exit /b 1
 )
 
-set STASHED=0
+for /f "delims=" %%b in ('git branch --show-current') do set CURRENT_BRANCH=%%b
 
+set DIRTY=0
 git diff --quiet >nul 2>&1
-if errorlevel 1 (
-    git stash
-    set STASHED=1
-    goto :doswitch
-)
+if errorlevel 1 set DIRTY=1
 git diff --cached --quiet >nul 2>&1
-if errorlevel 1 (
-    git stash
-    set STASHED=1
+if errorlevel 1 set DIRTY=1
+
+echo --- Preview ---
+echo   From : %CURRENT_BRANCH%
+echo   To   : %~1
+if "%DIRTY%"=="1" echo   Stash: yes (uncommitted changes detected)
+echo.
+set /p REPLY=Proceed? [y/N]:
+if /i not "%REPLY%"=="y" (
+    echo Aborted.
+    exit /b 0
 )
 
-:doswitch
+if "%DIRTY%"=="1" git stash
+
 git switch %~1
 
-if "%STASHED%"=="1" (
-    git stash pop
-)
+if "%DIRTY%"=="1" git stash pop

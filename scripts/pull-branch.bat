@@ -1,15 +1,11 @@
 @echo off
-if "%~1"=="" (
-    echo Usage: update-from.bat ^<source-branch^>
-    echo Example: update-from.bat main
-    exit /b 1
-)
-
 for /f "delims=" %%b in ('git branch --show-current') do set CURRENT_BRANCH=%%b
 
 echo --- Preview ---
+echo   Branch : %CURRENT_BRANCH%
 echo   git fetch origin
-echo   git merge --no-edit origin/%~1  (into %CURRENT_BRANCH%)
+echo   git reset --hard origin/%CURRENT_BRANCH%
+echo   (local branch will match GitHub exactly; local-only commits will be lost)
 echo.
 set /p REPLY=Proceed? [y/N]:
 if /i not "%REPLY%"=="y" (
@@ -18,4 +14,4 @@ if /i not "%REPLY%"=="y" (
 )
 
 git fetch origin
-git merge --no-edit origin/%~1
+git reset --hard origin/%CURRENT_BRANCH%
