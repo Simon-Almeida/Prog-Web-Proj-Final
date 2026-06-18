@@ -25,6 +25,12 @@
     },
     "accent": {
       "type": "string"
+    },
+    "conversations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::conversation.conversation",
+      "mappedBy": "tab"
     }
   }
 }
