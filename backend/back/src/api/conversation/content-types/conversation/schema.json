@@ -37,6 +37,12 @@
       "relation": "manyToMany",
       "target": "api::tag.tag",
       "inversedBy": "conversations"
+    },
+    "messages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::message.message",
+      "mappedBy": "conversation"
     }
   }
 }
