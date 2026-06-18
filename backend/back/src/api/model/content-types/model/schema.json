@@ -26,6 +26,12 @@
       "relation": "manyToOne",
       "target": "api::machine.machine",
       "inversedBy": "models"
+    },
+    "conversations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::conversation.conversation",
+      "mappedBy": "models"
     }
   }
 }
