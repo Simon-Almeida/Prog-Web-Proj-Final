@@ -17,8 +17,13 @@ Repo: Simon-Almeida/Prog-Web-Proj-Final
 - Created feature branches: `simon`, `rodrigo`
 - Configured GitHub MCP server in Claude Code for terminal repo access
 
+### GitHub Actions
+- `.github/workflows/auto-pr.yml`: on push to `simon` or `rodrigo`, auto-creates a
+  draft PR to `main` if none is open for that branch. Uses `GITHUB_TOKEN` (no extra
+  secrets needed). All context expressions go through `env:` to prevent injection.
+
 ### Plan files
-- `.hidden/MASTER-PLAN.md`: full 31-step private master plan (gitignored)
+- `MASTER-PLAN.md`: full 31-step private master plan at project root (gitignored)
 - `PLAN.md`: public shared overview: gates, phase map, ownership split, data model,
   branch workflow
 - `backend/BACKEND-PLAN.md`: Simon's Strapi track, Phase 1 slices
@@ -29,32 +34,47 @@ Repo: Simon-Almeida/Prog-Web-Proj-Final
 | Script | Purpose |
 |--------|---------|
 | `commit-push.sh/.bat` | `git add .` + commit + push current branch. Guards: blocks main branch, skips commit when tree is clean, shows preview + y/n prompt |
-| `update-from.sh/.bat` | fetch + merge a specified remote branch into current branch |
+| `update-from.sh/.bat` | fetch + merge specified remote branch + push current branch |
 | `switch-branch.sh/.bat` | stash uncommitted changes, switch branch, pop stash on arrival |
 | `github-update-branch.sh` | Simon-only: fast-forwards a branch on GitHub to match main (no local switch needed) |
 | `pull-branch.sh/.bat` | fetch + hard-reset current branch to match GitHub (remote wins) |
+| `dev.sh/.bat` | run services from project root: `dev back` (Strapi), `dev front` (Next.js) |
 
-### fish config
-- Added `make-exec` abbreviation to `~/.config/fish/config.fish` (expands to `chmod +x`)
+### project.fish
+- Source once per session from project root: `source project.fish`
+- Defines fish functions (`commit-push`, `update-from`, `switch-branch`, `pull-branch`,
+  `github-update-branch`, `dev`) that wrap the scripts without needing `./scripts/` prefix
+- All output is tee'd to `.tmp/last-output.log`; previous run rotated to
+  `.tmp/previous-output.log` before each command
+
+### .tmp/ directory
+- Gitignored. Contains `last-output.log` and `previous-output.log`.
+- Written by `project.fish` wrapper functions so Claude Code can read command output
+  directly with the Read tool.
+
+### fish config (`~/.config/fish/config.fish`)
+- Added `make-exec` abbreviation (expands to `chmod +x`)
 
 ---
 
 ## Phase 1: Backend - Strapi 5 (target: Jun 23)
 
 ### Step 1: Scaffold Strapi 5 backend
-- [x] `npx create-strapi@latest . --no-run` inside `backend/back/`
-- [ ] Boot admin, create first admin user
-- Commit: `chore: scaffold Strapi 5 backend`
+- [x] `npx create-strapi@latest . --no-run` inside `backend/back/` (TypeScript, SQLite)
+- [x] Created admin user via localhost Strapi admin UI
+- [x] Restructured: `backend/back/` for Strapi, `frontend/front/` for Next.js
+- Commit: `chore: scaffold Strapi 5 backend + dev runner scripts`
 
 ### Step 2: Machine content-type
-- [ ] Fields: name (string), baseUrl (string)
-- [ ] owner relation deferred to Phase 4
-- Commit: `feat: Machine content-type`
+- [x] Fields: name (string, required), baseUrl (string, required)
+- [x] owner relation deferred to Phase 4
+- Commit: `feat: add Machine content-type + session output logging`
 
 ### Step 3: Model content-type + Machine 1-N relation
-- [ ] Fields: name, displayName, paramSize
-- [ ] Relation: Model belongs-to Machine
-- Commit: `feat: Model content-type + Machine 1-N Model`
+- [x] Fields: name (required), displayName, paramSize
+- [x] Relation: Model manyToOne Machine / Machine oneToMany Model
+- [x] Verified in Strapi Content-Type Builder
+- Commit: `feat: Model content-type + Machine 1-N Model relation`
 
 ### Step 4: Tab content-type
 - [ ] Fields: key, label, systemPrompt (text), accent (hex string)
