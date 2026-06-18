@@ -10,6 +10,7 @@ for /f "delims=" %%b in ('git branch --show-current') do set CURRENT_BRANCH=%%b
 echo --- Preview ---
 echo   git fetch origin
 echo   git merge --no-edit origin/%~1  (into %CURRENT_BRANCH%)
+echo   git push -u origin %CURRENT_BRANCH%
 echo.
 set /p REPLY=Proceed? [y/N]:
 if /i not "%REPLY%"=="y" (
@@ -19,3 +20,4 @@ if /i not "%REPLY%"=="y" (
 
 git fetch origin
 git merge --no-edit origin/%~1
+git push -u origin %CURRENT_BRANCH%
