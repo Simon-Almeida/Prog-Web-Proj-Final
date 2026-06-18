@@ -462,7 +462,37 @@ export interface ApiMachineMachine extends Struct.CollectionTypeSchema {
       'api::machine.machine'
     > &
       Schema.Attribute.Private;
+    models: Schema.Attribute.Relation<'oneToMany', 'api::model.model'>;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiModelModel extends Struct.CollectionTypeSchema {
+  collectionName: 'models';
+  info: {
+    description: 'An Ollama model available on a Machine';
+    displayName: 'Model';
+    pluralName: 'models';
+    singularName: 'model';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    displayName: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::model.model'> &
+      Schema.Attribute.Private;
+    machine: Schema.Attribute.Relation<'manyToOne', 'api::machine.machine'>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    paramSize: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -982,6 +1012,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::machine.machine': ApiMachineMachine;
+      'api::model.model': ApiModelModel;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
