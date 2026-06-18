@@ -500,6 +500,37 @@ export interface ApiModelModel extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiTabTab extends Struct.CollectionTypeSchema {
+  collectionName: 'tabs';
+  info: {
+    description: 'A themed chat preset with its own system prompt and UI accent color';
+    displayName: 'Tab';
+    pluralName: 'tabs';
+    singularName: 'tab';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    accent: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    key: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::tab.tab'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    systemPrompt: Schema.Attribute.Text;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1013,6 +1044,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::machine.machine': ApiMachineMachine;
       'api::model.model': ApiModelModel;
+      'api::tab.tab': ApiTabTab;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

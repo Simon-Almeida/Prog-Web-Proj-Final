@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tabs",
+  "info": {
+    "singularName": "tab",
+    "pluralName": "tabs",
+    "displayName": "Tab",
+    "description": "A themed chat preset with its own system prompt and UI accent color"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "key": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "systemPrompt": {
+      "type": "text"
+    },
+    "accent": {
+      "type": "string"
+    }
+  }
+}
