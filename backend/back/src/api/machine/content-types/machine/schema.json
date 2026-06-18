@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "machines",
+  "info": {
+    "singularName": "machine",
+    "pluralName": "machines",
+    "displayName": "Machine",
+    "description": "A developer machine running Ollama, exposed via Cloudflare Tunnel"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "baseUrl": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
