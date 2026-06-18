@@ -1,0 +1,254 @@
+/* =================================================================
+   AURUM — luxury gold/black theme
+   Black dominant, champagne gold accent. CSS variables drive
+   everything; Bootstrap is overridden below so React Bootstrap
+   components inherit the look automatically.
+   ================================================================= */
+
+:root {
+  /* Surfaces */
+  --bg: #0b0b0d;
+  --bg-elevated: #141416;
+  --surface: #1a1a1e;
+  --surface-hover: #202026;
+
+  /* Gold accent family */
+  --gold: #c9a227;
+  --gold-soft: #e8d9a0;
+  --gold-deep: #9b7d1c;
+  --gold-glow: rgba(201, 162, 39, 0.35);
+
+  /* Text */
+  --text: #f4f1ea;
+  --text-muted: #9a958c;
+  --text-faint: #5e5a53;
+
+  /* Lines */
+  --border: rgba(201, 162, 39, 0.14);
+  --border-strong: rgba(201, 162, 39, 0.28);
+
+  /* Typography */
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-manrope), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+
+  /* Shadows */
+  --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 0 0 1px var(--border-strong),
+    0 18px 50px rgba(0, 0, 0, 0.55);
+}
+
+/* ----------------------------------------------------------------
+   Base reset / atmosphere
+   ---------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Subtle film grain over everything — kills the flat "AI slop" look. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Soft gold aurora that sits behind the hero. Reusable utility. */
+.aurum-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60% 50% at 50% 0%,
+      var(--gold-glow) 0%,
+      transparent 70%
+    );
+  opacity: 0.55;
+  filter: blur(20px);
+}
+
+a {
+  color: var(--gold-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--gold);
+}
+
+::selection {
+  background: var(--gold);
+  color: #000;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-hover);
+  border-radius: 10px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-deep);
+}
+
+/* =================================================================
+   Brand wordmark
+   ================================================================= */
+.aurum-brand {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+.aurum-brand__name {
+  line-height: 1;
+}
+.aurum-brand__mark {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold-deep));
+  box-shadow: 0 0 12px var(--gold-glow);
+  flex-shrink: 0;
+}
+
+/* =================================================================
+   Typography helpers
+   ================================================================= */
+.aurum-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+.aurum-mono {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* =================================================================
+   Buttons (override Bootstrap btn + add our own)
+   ================================================================= */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+}
+
+/* Primary = filled gold */
+.aurum-btn-gold,
+.btn-primary {
+  background: linear-gradient(180deg, var(--gold-soft) 0%, var(--gold) 55%, var(--gold-deep) 100%);
+  border: 1px solid var(--gold-deep);
+  color: #1a1400;
+  font-weight: 600;
+  box-shadow: 0 8px 24px -8px var(--gold-glow);
+}
+.aurum-btn-gold:hover,
+.btn-primary:hover {
+  background: linear-gradient(180deg, #f3e6b8 0%, var(--gold-soft) 55%, var(--gold) 100%);
+  color: #1a1400;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px -8px var(--gold-glow);
+}
+
+/* Outline = ghost gold on transparent */
+.aurum-btn-ghost,
+.btn-outline-light {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+}
+.aurum-btn-ghost:hover,
+.btn-outline-light:hover {
+  background: rgba(201, 162, 39, 0.08);
+  border-color: var(--gold);
+  color: var(--gold-soft);
+}
+
+/* =================================================================
+   Cards / surfaces
+   ================================================================= */
+.aurum-card {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg-elevated) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  height: 100%;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.aurum-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-3px);
+}
+
+/* =================================================================
+   Entrance animations (CSS-only, staggered via inline animation-delay)
+   ================================================================= */
+@keyframes aurum-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes aurum-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.aurum-rise {
+  opacity: 0;
+  animation: aurum-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.aurum-fade {
+  opacity: 0;
+  animation: aurum-fade 1s ease forwards;
+}
+
+@keyframes aurum-blink {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
