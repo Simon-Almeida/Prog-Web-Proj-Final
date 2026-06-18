@@ -65,3 +65,5 @@ Conversation) and M-N (Conversation to Model, Conversation to Tag).
 - Branches: `main` (protected, PR required) plus `simon` and `rodrigo`.
 - Conventional commits: `feat:`, `chore:`, `fix:`, `style:`, `docs:`.
 - One slice per commit. Do not batch work.
+- **Never push without being explicitly asked.** Use the `commit-push` helper script.
+- **Never commit without being asked.** The developer commits themselves.
