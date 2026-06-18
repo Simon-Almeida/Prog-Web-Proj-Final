@@ -18,6 +18,12 @@
     "baseUrl": {
       "type": "string",
       "required": true
+    },
+    "models": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::model.model",
+      "mappedBy": "machine"
     }
   }
 }
