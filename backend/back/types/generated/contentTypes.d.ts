@@ -462,6 +462,7 @@ export interface ApiConversationConversation
       'api::conversation.conversation'
     > &
       Schema.Attribute.Private;
+    messages: Schema.Attribute.Relation<'oneToMany', 'api::message.message'>;
     models: Schema.Attribute.Relation<'manyToMany', 'api::model.model'>;
     publishedAt: Schema.Attribute.DateTime;
     tab: Schema.Attribute.Relation<'manyToOne', 'api::tab.tab'>;
@@ -502,6 +503,42 @@ export interface ApiMachineMachine extends Struct.CollectionTypeSchema {
     models: Schema.Attribute.Relation<'oneToMany', 'api::model.model'>;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
+  collectionName: 'messages';
+  info: {
+    description: 'A single message within a conversation';
+    displayName: 'Message';
+    pluralName: 'messages';
+    singularName: 'message';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    content: Schema.Attribute.Text & Schema.Attribute.Required;
+    conversation: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::conversation.conversation'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::message.message'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    role: Schema.Attribute.Enumeration<['user', 'assistant', 'system']> &
+      Schema.Attribute.Required;
+    tokens: Schema.Attribute.Integer;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1121,6 +1158,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::conversation.conversation': ApiConversationConversation;
       'api::machine.machine': ApiMachineMachine;
+      'api::message.message': ApiMessageMessage;
       'api::model.model': ApiModelModel;
       'api::tab.tab': ApiTabTab;
       'api::tag.tag': ApiTagTag;
