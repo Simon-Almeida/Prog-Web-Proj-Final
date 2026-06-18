@@ -1,17 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-if [ -z "$1" ]; then
-  echo "Usage: update-from.sh <source-branch>"
-  echo "Example: update-from.sh main"
-  exit 1
-fi
-
 CURRENT_BRANCH="$(git branch --show-current)"
 
 echo "--- Preview ---"
+echo "  Branch  : $CURRENT_BRANCH"
 echo "  git fetch origin"
-echo "  git merge --no-edit origin/$1  (into $CURRENT_BRANCH)"
+echo "  git reset --hard origin/$CURRENT_BRANCH"
+echo "  (local branch will match GitHub exactly; local-only commits will be lost)"
 echo ""
 read -r -p "Proceed? [y/N] " REPLY
 case "$REPLY" in
@@ -20,4 +16,4 @@ case "$REPLY" in
 esac
 
 git fetch origin
-git merge --no-edit origin/"$1"
+git reset --hard origin/"$CURRENT_BRANCH"

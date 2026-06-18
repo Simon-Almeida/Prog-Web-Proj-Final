@@ -10,6 +10,20 @@ if "%BRANCH%"=="main" (
     exit /b 1
 )
 
+echo --- Preview ---
+echo   Branch : %BRANCH%
+echo   Commit : %~1
+echo   Push   : origin/%BRANCH%
+echo.
+echo Files to stage:
+git status --short
+echo.
+set /p REPLY=Proceed? [y/N]:
+if /i not "%REPLY%"=="y" (
+    echo Aborted.
+    exit /b 0
+)
+
 git add .
 git commit -m "%~1"
 git push -u origin %BRANCH%
