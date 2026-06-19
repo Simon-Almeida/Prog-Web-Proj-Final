@@ -47,7 +47,7 @@ cd backend/back && npm run develop
 cd frontend/front && npm run dev
 ```
 
-See `.hidden/plan.md` for full build plan (gitignored).
+See [PLAN.md](PLAN.md) for the build plan, phases, and shared schema.
 
 ## Deadlines
 
