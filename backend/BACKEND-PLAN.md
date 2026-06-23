@@ -46,6 +46,24 @@ One commit per slice. Conventional commits. Branch off `main`, PR into `main`.
     - Strapi Cloud uses Postgres in prod; keep SQLite only for local dev.
     - Note env config for the cloud deploy (do the actual deploy at the Phase 1 checkpoint).
 
+## Phase 2 slices (Jun 30 gate support)
+
+Backend is complete for Phase 2. The APIs are live. Two tasks remain:
+
+10. `chore: deploy Strapi to Strapi Cloud`
+    - Fast-forward the `deploy` branch to main: `deploy -y` (fish) or
+      `./scripts/github-update-branch.sh deploy -y`.
+    - Strapi Cloud picks up the push automatically and rebuilds.
+    - Verify: hit `https://<your-cloud-url>/documentation` and confirm Swagger loads.
+    - Postgres is the prod DB (configured in Strapi Cloud env vars already). SQLite stays
+      for local dev only.
+
+11. `feat: populate defaults for Conversation endpoint` (optional, quality-of-life)
+    - Create `backend/back/src/api/conversation/middlewares/populate.ts` (or override
+      the controller) to populate `tab` and `tags` by default on find/findOne so the
+      frontend does not need to pass `?populate=tab,tags` every time.
+    - Skip if the frontend always passes the populate param explicitly.
+
 ## Reminders
 
 - Public CRUD is opened only to pass the Jun 23 gate. Phase 4 re-locks it before final
@@ -54,7 +72,7 @@ One commit per slice. Conventional commits. Branch off `main`, PR into `main`.
 
 ## Verification
 
-- Open `/documentation` (Swagger UI).
-- Exercise GET / POST / PUT / DELETE on each content-type anonymously (Swagger "Try it
-  out" or curl).
-- Confirm relations populate: `GET /api/conversations?populate=*`.
+- Phase 1: Open `/documentation` (Swagger UI). Exercise GET / POST / PUT / DELETE on each
+  content-type anonymously. Confirm relations populate: `GET /api/conversations?populate=*`.
+- Phase 2: Strapi Cloud URL responds to API requests. Frontend at Rodrigo's machine can
+  reach Strapi at Simon's LAN IP (or Strapi Cloud URL once deployed).

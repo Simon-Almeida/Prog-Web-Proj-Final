@@ -20,6 +20,7 @@ function pull-branch;          _log_run ./scripts/pull-branch.sh $argv;         
 function github-update-branch; _log_run ./scripts/github-update-branch.sh $argv; end
 function deploy;               _log_run ./scripts/github-update-branch.sh deploy $argv; end
 function dev;                  _log_run ./scripts/dev.sh $argv;                  end
+function front-local;          _log_run ./scripts/front-local.sh $argv;          end
 
 echo "Project functions loaded. Output logged to .tmp/last-output.log (previous: .tmp/previous-output.log)"
-echo "Commands: commit-push, update-from, switch-branch, pull-branch, github-update-branch, deploy, dev"
+echo "Commands: commit-push, update-from, switch-branch, pull-branch, github-update-branch, deploy, dev, front-local"
