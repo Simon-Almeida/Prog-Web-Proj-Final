@@ -1,11 +1,12 @@
 "use client";
 
-// Sidebar plus main shell. Slice 4 of the FRONTEND-PLAN: shell only, no real
-// routes yet. Phase 2 will swap the placeholder nav items for Next.js Link
-// components wired into the CRUD pages. Bootstrap classes are kept at their
-// defaults: no custom theming, no custom fonts, no animations.
+// Sidebar plus main shell. Slices 4 and 6 of the FRONTEND-PLAN: shell wires
+// the sidebar placeholder items into Next.js Link components pointing at the
+// Phase 2 CRUD routes. Bootstrap classes are kept at their defaults: no
+// custom theming, no custom fonts, no animations.
 
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { Container } from "react-bootstrap";
 
 export interface AppShellProps {
@@ -22,11 +23,16 @@ export function AppShell({ children }: AppShellProps) {
         >
           <h2 className="h5 mb-4">Local-AI Chat</h2>
           <ul className="list-unstyled mb-0">
-            <li className="mb-2">Conversations</li>
-            <li className="mb-2">Machines</li>
-            <li className="mb-2">Models</li>
-            <li className="mb-2">Tabs</li>
-            <li className="mb-2">Tags</li>
+            <li className="mb-2">
+              <Link href="/conversations" className="text-decoration-none">
+                Conversations
+              </Link>
+            </li>
+            <li className="mb-2">
+              <Link href="/machines" className="text-decoration-none">
+                Machines
+              </Link>
+            </li>
           </ul>
         </aside>
         <main className="flex-grow-1 p-4">{children}</main>
