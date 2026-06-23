@@ -2,11 +2,6 @@
 // Base URL is read from NEXT_PUBLIC_STRAPI_URL (default http://localhost:1337).
 // All six Strapi collections from the shared schema in PLAN.md are exposed:
 // Machine, Model, Tab, Tag, Conversation, Message.
-//
-// This module is a skeleton with typed function signatures. Payload shapes are
-// `unknown` here so this slice compiles without the shared interfaces, which
-// are introduced in slice 3 (frontend/front/lib/types.ts) and applied to these
-// signatures in lockstep with the backend.
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL ?? "http://localhost:1337";
@@ -40,10 +35,30 @@ function envelope(data: unknown): string {
   return JSON.stringify({ data });
 }
 
+// Build a query string from params. Converts comma-separated populate values
+// to Strapi 5 array notation (?populate[0]=tab&populate[1]=tags) because
+// Strapi 5 does not support the comma-separated populate string format.
+function qs(params?: Record<string, string>): string {
+  if (!params) return "";
+  const parts: string[] = [];
+  for (const [key, val] of Object.entries(params)) {
+    if (key === "populate" && val !== "*" && val.includes(",")) {
+      val.split(",").forEach((field, i) => {
+        parts.push(`populate[${i}]=${encodeURIComponent(field.trim())}`);
+      });
+    } else {
+      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
+    }
+  }
+  return "?" + parts.join("&");
+}
+
 function collection(slug: string) {
   return {
-    find: () => strapiFetch(`/api/${slug}`),
-    findOne: (id: ID) => strapiFetch(`/api/${slug}/${id}`),
+    find: (params?: Record<string, string>) =>
+      strapiFetch(`/api/${slug}${qs(params)}`),
+    findOne: (id: ID, params?: Record<string, string>) =>
+      strapiFetch(`/api/${slug}/${id}${qs(params)}`),
     create: (data: unknown) =>
       strapiFetch(`/api/${slug}`, {
         method: "POST",
