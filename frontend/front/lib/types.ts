@@ -74,3 +74,26 @@ export interface Message {
   tokens?: number;
   conversation?: Conversation | null;
 }
+
+// Strapi 5 response envelopes. find() and findOne() return a payload wrapped
+// in { data: ... }. The pagination block is optional (Strapi omits it for
+// small collections and for findOne). These helpers are used at call sites
+// in client components to type the raw unknown returned by the strapi client.
+
+export interface StrapiPagination {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+}
+
+export interface StrapiCollectionResponse<T> {
+  data: T[];
+  meta?: {
+    pagination?: StrapiPagination;
+  };
+}
+
+export interface StrapiSingleResponse<T> {
+  data: T;
+}
