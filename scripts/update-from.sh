@@ -17,7 +17,7 @@ CURRENT_BRANCH="$(git branch --show-current)"
 echo "--- Preview ---"
 echo "  git fetch origin"
 echo "  git merge --no-edit origin/$1  (into $CURRENT_BRANCH)"
-echo "  git push -u origin $CURRENT_BRANCH"
+echo "  git push origin $CURRENT_BRANCH"
 echo ""
 
 if [ "$AUTO_YES" = "1" ]; then
@@ -32,4 +32,4 @@ fi
 
 git fetch origin
 git merge --no-edit origin/"$1"
-git push -u origin "$CURRENT_BRANCH"
+git push origin "$CURRENT_BRANCH"

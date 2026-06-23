@@ -55,4 +55,4 @@ if [ "$HAS_CHANGES" = "1" ]; then
   git add .
   git commit -m "$COMMIT_MSG"
 fi
-git push -u origin "$CURRENT_BRANCH"
+git push origin "$CURRENT_BRANCH"
