@@ -40,10 +40,18 @@ function envelope(data: unknown): string {
   return JSON.stringify({ data });
 }
 
+function queryString(params?: Record<string, string>): string {
+  if (!params) return "";
+  const qs = new URLSearchParams(params).toString();
+  return qs ? `?${qs}` : "";
+}
+
 function collection(slug: string) {
   return {
-    find: () => strapiFetch(`/api/${slug}`),
-    findOne: (id: ID) => strapiFetch(`/api/${slug}/${id}`),
+    find: (params?: Record<string, string>) =>
+      strapiFetch(`/api/${slug}${queryString(params)}`),
+    findOne: (id: ID, params?: Record<string, string>) =>
+      strapiFetch(`/api/${slug}/${id}${queryString(params)}`),
     create: (data: unknown) =>
       strapiFetch(`/api/${slug}`, {
         method: "POST",
