@@ -40,18 +40,27 @@ function envelope(data: unknown): string {
   return JSON.stringify({ data });
 }
 
-function queryString(params?: Record<string, string>): string {
+function qs(params?: Record<string, string>): string {
   if (!params) return "";
-  const qs = new URLSearchParams(params).toString();
-  return qs ? `?${qs}` : "";
+  const parts: string[] = [];
+  for (const [key, val] of Object.entries(params)) {
+    if (key === "populate" && val !== "*" && val.includes(",")) {
+      val.split(",").forEach((field, i) => {
+        parts.push(`populate[${i}]=${encodeURIComponent(field.trim())}`);
+      });
+    } else {
+      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
+    }
+  }
+  return "?" + parts.join("&");
 }
 
 function collection(slug: string) {
   return {
     find: (params?: Record<string, string>) =>
-      strapiFetch(`/api/${slug}${queryString(params)}`),
+        strapiFetch(`/api/${slug}${qs(params)}`),
     findOne: (id: ID, params?: Record<string, string>) =>
-      strapiFetch(`/api/${slug}/${id}${queryString(params)}`),
+        strapiFetch(`/api/${slug}/${id}${qs(params)}`),
     create: (data: unknown) =>
       strapiFetch(`/api/${slug}`, {
         method: "POST",
