@@ -117,14 +117,14 @@ async function seedData(strapi: Core.Strapi) {
     data: { name: 'Rodrigo (RTX 4060)', baseUrl: 'http://localhost:11434' },
   });
 
-  await strapi.db.query('api::model.model').createMany({
-    data: [
-      { name: 'llama3.2', displayName: 'Llama 3.2', paramSize: '3B', machine: simon.id },
-      { name: 'mistral',  displayName: 'Mistral',   paramSize: '7B', machine: simon.id },
-      { name: 'llama3.1', displayName: 'Llama 3.1', paramSize: '8B', machine: rodrigo.id },
-      { name: 'deepseek-r1', displayName: 'DeepSeek R1', paramSize: '7B', machine: rodrigo.id },
-    ],
-  });
+  for (const data of [
+    { name: 'llama3.2',    displayName: 'Llama 3.2',    paramSize: '3B', machine: simon.id },
+    { name: 'mistral',     displayName: 'Mistral',       paramSize: '7B', machine: simon.id },
+    { name: 'llama3.1',   displayName: 'Llama 3.1',    paramSize: '8B', machine: rodrigo.id },
+    { name: 'deepseek-r1', displayName: 'DeepSeek R1', paramSize: '7B', machine: rodrigo.id },
+  ]) {
+    await strapi.db.query('api::model.model').create({ data });
+  }
 
   await strapi.db.query('api::tab.tab').createMany({
     data: [
