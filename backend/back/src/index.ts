@@ -116,7 +116,8 @@ async function seedData(strapi: Core.Strapi) {
   });
 
   for (const data of [
-    { name: 'qwen2.5:1.5b',                          displayName: 'Qwen 2.5',       paramSize: '1.5B', machine: simon.id },
+    { name: 'qwen2.5:7b',                            displayName: 'Qwen 2.5 7B',    paramSize: '7B',   machine: simon.id },
+    { name: 'qwen2.5:1.5b',                          displayName: 'Qwen 2.5 1.5B',  paramSize: '1.5B', machine: simon.id },
     { name: 'qwen2.5-coder:0.5b-instruct-q4_K_M',   displayName: 'Qwen 2.5 Coder', paramSize: '0.5B', machine: simon.id },
     { name: 'llama3.1',                              displayName: 'Llama 3.1',      paramSize: '8B',   machine: rodrigo.id },
     { name: 'deepseek-r1',                           displayName: 'DeepSeek R1',    paramSize: '7B',   machine: rodrigo.id },
