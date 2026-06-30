@@ -1,4 +1,5 @@
 import type { Core } from '@strapi/strapi';
+import bcrypt from 'bcryptjs';
 
 const CONTENT_TYPES = ['machine', 'model', 'tab', 'tag', 'conversation', 'message'];
 const CRUD_ACTIONS  = ['find', 'findOne', 'create', 'update', 'delete'];
@@ -89,10 +90,7 @@ async function ensureSimonRole(strapi: Core.Strapi) {
 
   if (existing) return;
 
-  const hashed = await strapi
-    .plugin('users-permissions')
-    .service('user')
-    .hashPassword(password);
+  const hashed = await bcrypt.hash(password, 10);
 
   await strapi.db.query('plugin::users-permissions.user').create({
     data: {
