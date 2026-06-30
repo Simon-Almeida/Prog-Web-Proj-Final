@@ -35,7 +35,7 @@ export function AppShell({ children }: AppShellProps) {
             </li>
           </ul>
         </aside>
-        <main className="flex-grow-1 p-4">{children}</main>
+        <main className="flex-grow-1 p-4 bg-white text-dark">{children}</main>
       </div>
     </Container>
   );

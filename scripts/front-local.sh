@@ -5,7 +5,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 DEST="$HOME/front-dev"
 
-echo "Copying frontend to $DEST..."
+echo "Syncing frontend to $DEST..."
+rm -rf "$DEST"
 cp -r "$PROJECT_ROOT/frontend/front" "$DEST"
 
 cd "$DEST"

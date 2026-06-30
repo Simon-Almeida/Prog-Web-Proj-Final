@@ -21,7 +21,8 @@ function github-update-branch; _log_run ./scripts/github-update-branch.sh $argv;
 function deploy;               _log_run ./scripts/github-update-branch.sh deploy $argv; end
 function dev;                  _log_run ./scripts/dev.sh $argv;                  end
 function front-local;          _log_run ./scripts/front-local.sh $argv;          end
+function back-dev;             _log_run ./scripts/back-dev.sh $argv;             end
 function show-ip;              _log_run ./scripts/show-ip.sh $argv;             end
 
 echo "Project functions loaded. Output logged to .tmp/last-output.log (previous: .tmp/previous-output.log)"
-echo "Commands: commit-push, update-from, switch-branch, pull-branch, github-update-branch, deploy, dev, front-local, show-ip"
+echo "Commands: commit-push, update-from, switch-branch, pull-branch, github-update-branch, deploy, dev, front-local, back-dev, show-ip"
