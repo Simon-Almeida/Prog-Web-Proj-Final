@@ -5,7 +5,7 @@ talking to local Ollama on each developer's laptop. Strapi stores all chat data;
 is the UI and proxies inference to Ollama. See [README](README.md) for team, hardware and
 stack details.
 
-**Current focus: Phase 1 (Jun 23 gate).**
+**Current focus: Phase 3 (chat + Ollama). Phases 1 and 2 complete.**
 
 ## Hard gates
 
