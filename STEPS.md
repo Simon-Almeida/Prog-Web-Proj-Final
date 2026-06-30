@@ -107,37 +107,52 @@ Repo: Simon-Almeida/Prog-Web-Proj-Final
 - Commit: `feat: Swagger/OpenAPI docs`
 
 ### Step 10: Checkpoint
-- [ ] Note Strapi Cloud env config (Postgres prod vs SQLite dev)
-- [ ] Deploy to Strapi Cloud
+- [x] Strapi Cloud deployed (`deploy` branch, Postgres prod, SQLite local dev)
+- [x] Bootstrap fixed for fresh Cloud DB: `upsertPermission` creates permissions if missing
+- [x] Simon super-admin role + user created on boot via `SIMON_PASSWORD` env var
+- [x] `bcryptjs` used directly (Cloud production build lacks `hashPassword` on user service)
 
 ---
 
-## Phase 2: Frontend - Next.js (target: Jun 30)
+## Phase 2: Frontend - Next.js (completed: Jun 30)
 
-- [ ] Scaffold Next.js 16 + React Bootstrap
-- [ ] Strapi API client skeleton (`frontend/lib/strapi.ts`)
-- [ ] TypeScript interfaces for all content-types
-- [ ] App layout + nav shell (sidebar + main)
-- [ ] Conversations list (read)
-- [ ] Conversation create/edit/delete (CRUD)
-- [ ] Machines/models registry pages
-- [ ] Deploy Next.js to Vercel
+- [x] Scaffold Next.js 16 + React Bootstrap (Rodrigo)
+- [x] Strapi API client skeleton `frontend/front/lib/strapi.ts` with `qs()` + Strapi 5 array populate fix
+- [x] TypeScript interfaces for all content-types (`frontend/front/lib/types.ts`)
+- [x] App layout + nav shell (`AppShell.tsx`, sidebar with Conversations + Machines links)
+- [x] Conversations list page with Edit + Chat buttons, delete with confirm
+- [x] Conversation create page (tab select, tag checkboxes)
+- [x] Conversation edit page (pre-filled form)
+- [x] Machines + models page (Bootstrap Accordion, read-only)
+- [x] Backend status LED (top-right, polls `/_health` every 5s)
+- [x] `scripts/front-local.sh` + `scripts/back-dev.sh` (NTFS workaround)
+- [x] White background fix (`AppShell` `bg-white`, strip dark-mode globals)
+- [x] Seed fix: `createMany` replaced with `create` loop (relations now set)
+- [x] Strapi Cloud deployed and stable
+- [ ] Deploy Next.js to Vercel (deferred to Phase 4 final deploy)
 
-## Phase 3: Chat + Ollama
+## Phase 3: Chat + Ollama (completed: Jun 30)
 
-- [ ] `/api/chat` proxy route (Next.js -> Ollama)
-- [ ] Streaming responses
-- [ ] Chat UI (bubbles, input, model dropdown)
-- [ ] Persist messages to Strapi
-- [ ] Tab switcher + presets (system prompt + accent)
-- [ ] Cloudflare Tunnel setup + docs
+- [x] `/api/chat` proxy route (`frontend/front/app/api/chat/route.ts`)
+  - Streams Ollama `/api/chat` responses as plain text
+  - SSRF fix: `baseUrl` resolved server-side from Strapi by `machineDocumentId`; `redirect: "manual"`
+- [x] Streaming chat UI (`frontend/front/app/conversations/[documentId]/chat/page.tsx`)
+  - Message bubbles (user right / assistant left)
+  - Model selector dropdown (pulls from machines API, shows machine name)
+  - Enter to send, Shift+Enter for newline
+  - System prompt from conversation's tab passed to Ollama
+- [x] Persist messages to Strapi (user + assistant messages created after each exchange)
+- [x] `bcryptjs` import fix: `hashPassword` not available in Strapi Cloud production build
+- [ ] Tab accent color applied to chat UI (deferred to Phase 4 polish)
+- [ ] Cloudflare Tunnel for Ollama (operational, set up per-session as needed)
 
 ## Phase 4: Auth, Roles, Deploy
 
-- [ ] Strapi roles + ownership policies (re-lock Public, restrict Authenticated)
-- [ ] Login (Next.js <-> Strapi JWT)
+- [ ] Strapi roles + ownership policies (re-lock Public, restrict Authenticated to own data)
+- [ ] Login page (Next.js <-> Strapi JWT)
 - [ ] Registration page
 - [ ] Route protection + role-based UI
 - [ ] Dark theme + per-tab accent
 - [ ] Responsive polish
-- [ ] Final deploy, end-to-end verification
+- [ ] Deploy Next.js to Vercel
+- [ ] Final end-to-end verification
