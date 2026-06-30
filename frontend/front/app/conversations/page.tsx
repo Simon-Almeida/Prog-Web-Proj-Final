@@ -122,8 +122,14 @@ export default function ConversationsPage() {
                 <td>
                   <div className="d-flex gap-2">
                     <Link
+                      href={`/conversations/${conversation.documentId}/chat`}
+                      className="btn btn-sm btn-primary"
+                    >
+                      Chat
+                    </Link>
+                    <Link
                       href={`/conversations/${conversation.documentId}/edit`}
-                      className="btn btn-sm btn-outline-primary"
+                      className="btn btn-sm btn-outline-secondary"
                     >
                       Edit
                     </Link>

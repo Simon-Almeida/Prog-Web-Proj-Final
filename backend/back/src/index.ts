@@ -118,10 +118,10 @@ async function seedData(strapi: Core.Strapi) {
   });
 
   for (const data of [
-    { name: 'llama3.2',    displayName: 'Llama 3.2',    paramSize: '3B', machine: simon.id },
-    { name: 'mistral',     displayName: 'Mistral',       paramSize: '7B', machine: simon.id },
-    { name: 'llama3.1',   displayName: 'Llama 3.1',    paramSize: '8B', machine: rodrigo.id },
-    { name: 'deepseek-r1', displayName: 'DeepSeek R1', paramSize: '7B', machine: rodrigo.id },
+    { name: 'qwen2.5:1.5b',                          displayName: 'Qwen 2.5',       paramSize: '1.5B', machine: simon.id },
+    { name: 'qwen2.5-coder:0.5b-instruct-q4_K_M',   displayName: 'Qwen 2.5 Coder', paramSize: '0.5B', machine: simon.id },
+    { name: 'llama3.1',                              displayName: 'Llama 3.1',      paramSize: '8B',   machine: rodrigo.id },
+    { name: 'deepseek-r1',                           displayName: 'DeepSeek R1',    paramSize: '7B',   machine: rodrigo.id },
   ]) {
     await strapi.db.query('api::model.model').create({ data });
   }
